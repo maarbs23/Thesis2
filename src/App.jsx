@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import bgImg from './images/USTP-CDO-ICT-building-2048x1152.jpg'
 import ustpLogo from './images/heartbeat.png'
-import Signup from './Signup' // <-- Import Signup
+import Signup from './Signup'
+import Dashboard from './Dashboard'
 
 function App() {
   const [idNumber, setIdNumber] = useState('')
@@ -267,31 +268,7 @@ function App() {
         )}
 
         {loggedIn && (
-          <div style={{
-            textAlign: 'center',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
-            <h2 style={{ color: '#22c55e', marginBottom: 12 }}>Welcome, {idNumber}!</h2>
-            <p style={{ color: '#64748b', marginBottom: 24 }}>You are now logged in to vitalsense.</p>
-            <div style={{
-              background: '#f0fdfa',
-              borderRadius: 10,
-              padding: '1.2rem 1rem',
-              color: '#2563eb',
-              fontWeight: 500,
-              fontSize: '1.1rem',
-              boxShadow: '0 2px 8px rgba(37,99,235,0.04)',
-              margin: '0 auto',
-              maxWidth: 400
-            }}>
-              Dashboard coming soon!
-            </div>
-          </div>
+          <Dashboard idNumber={idNumber} />
         )}
       </div>
 
