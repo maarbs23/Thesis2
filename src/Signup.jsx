@@ -5,12 +5,13 @@ function Signup({ onBackToLogin }) {
   const [idNumber, setIdNumber] = useState('')
   const [assignedOffice, setAssignedOffice] = useState('')
   const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!idNumber || !assignedOffice || !name) {
+    if (!idNumber || !assignedOffice || !name || !password) {
       setError('Please fill in all fields.')
       setSuccess(false)
       return
@@ -20,6 +21,7 @@ function Signup({ onBackToLogin }) {
     setIdNumber('')
     setAssignedOffice('')
     setName('')
+    setPassword('')
   }
 
   return (
@@ -117,12 +119,38 @@ function Signup({ onBackToLogin }) {
         />
       </div>
       <div style={{ marginBottom: '1.1rem', width: '100%' }}>
-        <input
-          type="text"
+        <select
           value={assignedOffice}
           onChange={e => setAssignedOffice(e.target.value)}
           required
-          placeholder="Assigned Office"
+          style={{
+            width: '100%',
+            padding: '0.5rem 0.75rem',
+            borderRadius: 6,
+            border: '1px solid #cbd5e1',
+            fontSize: '1rem',
+            outline: 'none',
+            transition: 'border 0.2s',
+            boxSizing: 'border-box',
+            backgroundColor: '#fff',
+            cursor: 'pointer'
+          }}
+          onFocus={e => e.target.style.border = '1.5px solid #2563eb'}
+          onBlur={e => e.target.style.border = '1px solid #cbd5e1'}
+        >
+          <option value="">Select Assigned Office</option>
+          <option value="University Clinic">University Clinic</option>
+          <option value="Office of Guidance">Office of Guidance</option>
+          <option value="Counseling Services">Counseling Services</option>
+        </select>
+      </div>
+      <div style={{ marginBottom: '1.5rem', width: '100%' }}>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          required
+          placeholder="Name"
           style={{
             width: '100%',
             padding: '0.5rem 0.75rem',
@@ -137,13 +165,13 @@ function Signup({ onBackToLogin }) {
           onBlur={e => e.target.style.border = '1px solid #cbd5e1'}
         />
       </div>
-      <div style={{ marginBottom: '1.5rem', width: '100%' }}>
+      <div style={{ marginBottom: '1.1rem', width: '100%' }}>
         <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
           required
-          placeholder="Name"
+          placeholder="Password"
           style={{
             width: '100%',
             padding: '0.5rem 0.75rem',
