@@ -98,7 +98,7 @@ function App() {
             letterSpacing: '1px',
             color: '#fff'
           }}>
-            VitalSense
+            
           </span>
         </span>
       </nav>
