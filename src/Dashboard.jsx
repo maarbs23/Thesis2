@@ -60,12 +60,126 @@ function Dashboard({ idNumber }) {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      paddingTop: 24,
+      paddingTop: 0,
       paddingBottom: 24,
       overflowX: 'hidden',
       position: 'relative', // add this
       zIndex: 1 // add this
     }}>
+      {/* Dark Blue Header Bar */}
+      <div style={{
+        width: '100%',
+        background: '#1e40af',
+        padding: '16px 24px',
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        marginBottom: 24
+      }}>
+        {/* User info */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8
+          }}>
+            <span style={{
+              display: 'inline-block',
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              background: '#e0f2fe',
+              color: '#2563eb',
+              fontWeight: 700,
+              fontSize: '1.2rem',
+              textAlign: 'center',
+              lineHeight: '40px'
+            }}>
+              {idNumber[0] ? idNumber[0].toUpperCase() : 'U'}
+            </span>
+            <span style={{
+              color: '#fff',
+              fontWeight: 600,
+              fontSize: '1.1rem'
+            }}>
+              {idNumber}
+            </span>
+          </div>
+          <span style={{
+            color: '#cbd5e1',
+            fontSize: '0.9rem'
+          }}>
+            {new Date().toLocaleDateString('en-CA')} {new Date().toLocaleTimeString('en-US', { hour12: false })}
+          </span>
+        </div>
+
+        {/* Right side - Notification bell icon */}
+        <div style={{
+          position: 'relative',
+          cursor: 'pointer'
+        }}>
+          <div style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            background: 'transparent',
+            border: '2px solid #fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseOver={(e) => {
+            e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.background = 'transparent'
+          }}>
+            {/* Bell icon */}
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="#fff" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            </svg>
+          </div>
+          {/* Notification badge */}
+          {notificationCount > 0 && (
+            <div style={{
+              position: 'absolute',
+              top: -5,
+              right: -5,
+              width: 20,
+              height: 20,
+              borderRadius: '50%',
+              background: '#ef4444',
+              color: '#fff',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: '2px solid #1e40af',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}>
+              {notificationCount}
+            </div>
+          )}
+        </div>
+      </div>
+
       <div style={{
         width: '100%',
         maxWidth: 1200,
