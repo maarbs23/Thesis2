@@ -50,145 +50,157 @@ function Dashboard({ idNumber }) {
     }
   ]
 
+  // Calculate total vitals breakdown
+  const totalVitalsBreakdown = {
+    'Total Readings': userLogs.length,
+    'Total Vital Signs': userLogs.reduce((sum, log) => sum + log.totalVitals, 0),
+    'Average Heart Rate': Math.round(userLogs.reduce((sum, log) => sum + parseInt(log.vitals['Heart Rate']), 0) / userLogs.length),
+    'Last Reading': userLogs[0]?.datetime || 'N/A'
+  }
+
+
   return (
     <div style={{
-      textAlign: 'center',
       width: '100vw',
-      minHeight: 'calc(100vh - 120px)', // leave space for header/footer
+      height: '100vh',
       boxSizing: 'border-box',
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      paddingTop: 0,
-      paddingBottom: 24,
       overflowX: 'hidden',
-      position: 'relative', // add this
-      zIndex: 1 // add this
+      overflowY: 'auto',
+      position: 'relative',
+      zIndex: 1
     }}>
-      {/* Dark Blue Header Bar */}
+      {/* Sidebar */}
       <div style={{
-        width: '100%',
-        background: '#1e40af',
-        padding: '16px 24px',
+        width: '250px',
+        height: '100vh',
+        background: '#f8fafc',
+        borderRight: '1px solid #e2e8f0',
+        padding: '20px 0',
         display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        marginBottom: 24
+        flexDirection: 'column',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        zIndex: 10
       }}>
-        {/* User info */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12
-        }}>
+        {/* Menu Items */}
+        <div style={{ padding: '0 20px' }}>
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 8
+            gap: '12px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#475569'
           }}>
-            <span style={{
-              display: 'inline-block',
-              width: 40,
-              height: 40,
-              borderRadius: '50%',
-              background: '#e0f2fe',
-              color: '#2563eb',
-              fontWeight: 700,
-              fontSize: '1.2rem',
-              textAlign: 'center',
-              lineHeight: '40px'
-            }}>
-              {idNumber[0] ? idNumber[0].toUpperCase() : 'U'}
-            </span>
-            <span style={{
-              color: '#fff',
-              fontWeight: 600,
-              fontSize: '1.1rem'
-            }}>
-              {idNumber}
-            </span>
-          </div>
-          <span style={{
-            color: '#cbd5e1',
-            fontSize: '0.9rem'
-          }}>
-            {new Date().toLocaleDateString('en-CA')} {new Date().toLocaleTimeString('en-US', { hour12: false })}
-          </span>
-        </div>
-
-        {/* Right side - Notification bell icon */}
-        <div style={{
-          position: 'relative',
-          cursor: 'pointer'
-        }}>
-          <div style={{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            background: 'transparent',
-            border: '2px solid #fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.background = 'transparent'
-          }}>
-            {/* Bell icon */}
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="#fff" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
-              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
             </svg>
+            <span style={{ fontSize: '14px', fontWeight: '500' }}>User</span>
           </div>
-          {/* Notification badge */}
-          {notificationCount > 0 && (
-            <div style={{
-              position: 'absolute',
-              top: -5,
-              right: -5,
-              width: 20,
-              height: 20,
-              borderRadius: '50%',
-              background: '#ef4444',
-              color: '#fff',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px solid #1e40af',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-            }}>
-              {notificationCount}
-            </div>
-          )}
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            borderRadius: '8px',
+            background: '#e0f2fe',
+            cursor: 'pointer',
+            color: '#2563eb'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="9" y1="9" x2="9" y2="9"/>
+              <line x1="15" y1="9" x2="15" y2="9"/>
+              <line x1="9" y1="15" x2="15" y2="15"/>
+              <line x1="9" y1="12" x2="15" y2="12"/>
+            </svg>
+            <span style={{ fontSize: '14px', fontWeight: '600' }}>Dashboard</span>
+          </div>
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#475569'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10,9 9,9 8,9"/>
+            </svg>
+            <span style={{ fontSize: '14px', fontWeight: '500' }}>Documentation</span>
+          </div>
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#475569'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12,6 12,12 16,14"/>
+            </svg>
+            <span style={{ fontSize: '14px', fontWeight: '500' }}>Office Assignment</span>
+          </div>
+          
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '12px 16px',
+            marginBottom: '8px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#475569'
+          }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+            </svg>
+            <span style={{ fontSize: '14px', fontWeight: '500' }}>Settings</span>
+          </div>
         </div>
       </div>
 
+      {/* Main Content */}
       <div style={{
-        width: '100%',
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: '0 12px',
-        boxSizing: 'border-box'
+        flex: 1,
+        marginLeft: '250px',
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingTop: 0,
+        paddingBottom: 30
       }}>
-        <h2 style={{ color: '#22c55e', marginBottom: 12 }}>Welcome, {idNumber}!</h2>
-        <p style={{ color: '#64748b', marginBottom: 8 }}>You are now logged in to vitalsense.</p>
+        <div style={{
+          width: '100%',
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '0 12px',
+          boxSizing: 'border-box'
+        }}>
+       
+
         <div style={{
           color: '#2563eb',
           fontWeight: 700,
@@ -200,16 +212,17 @@ function Dashboard({ idNumber }) {
           borderRadius: 8,
           boxShadow: '0 1px 4px rgba(37,99,235,0.06)'
         }}>
-          1,700 vitals logged
+          
         </div>
+        
         {/* User Log Table */}
         <div
           style={{
-            width: '100%',
-            maxWidth: 900,
+            width: '80%',
+            maxWidth: 800,
             margin: '2.5rem auto 0',
             background: '#fff',
-            borderRadius: 12,
+            borderRadius: 10,
             boxShadow: '0 2px 12px rgba(37,99,235,0.08)',
             padding: '1.5rem 1rem'
           }}
@@ -218,10 +231,10 @@ function Dashboard({ idNumber }) {
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '1rem' }}>
             <thead>
               <tr style={{ background: '#f1f5f9', color: '#2563eb' }}>
-                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'left' }}>User</th>
-                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'left' }}>Time & Date</th>
-                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'left' }}>Total Vitals Logged</th>
-                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'left' }}>Vitals Breakdown</th>
+                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'center' }}>User</th>
+                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'center' }}>Time & Date</th>
+                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'center' }}>Total Vitals Logged</th>
+                <th style={{ padding: '0.75rem', borderBottom: '1px solid #e5e7eb', textAlign: 'center' }}>Vitals Breakdown</th>
               </tr>
             </thead>
             <tbody>
@@ -233,7 +246,7 @@ function Dashboard({ idNumber }) {
                       alignItems: 'center',
                       gap: 8
                     }}>
-                      <span style={{
+                      <span style={{  
                         display: 'inline-block',
                         width: 28,
                         height: 28,
@@ -270,53 +283,67 @@ function Dashboard({ idNumber }) {
             </tbody>
           </table>
         </div>
-        {/* Line Chart Section */}
+
+
+
+        {/* Charts Container - Side by Side */}
         <div
           style={{
             width: '100%',
-            maxWidth: 640,
-            margin: '2.5rem auto 0',
-            background: '#fff',
-            borderRadius: 12,
-            boxShadow: '0 2px 12px rgba(37,99,235,0.08)',
-            padding: '1.5rem 1rem'
+            maxWidth: 1200,
+            margin: '4rem auto 0',
+            display: 'flex',
+            gap: '2rem',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
           }}
         >
-          <h3 style={{ color: '#2563eb', marginBottom: 12 }}>Heart Rate Trend (Last 7 Days)</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={lineData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis domain={[65, 80]} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="HeartRate" stroke="#22c55e" strokeWidth={3} dot={{ r: 5 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-        {/* Pie Chart Section */}
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 440,
-            margin: '2.5rem auto 0',
-            background: '#fff',
-            borderRadius: 12,
-            boxShadow: '0 2px 12px rgba(37,99,235,0.08)',
-            padding: '1.5rem 1rem'
-          }}
-        >
-          <h3 style={{ color: '#2563eb', marginBottom: 12 }}>Health Metrics Distribution</h3>
-          <ResponsiveContainer width="100%" height={250}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-                label
+          {/* Line Chart Section */}
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 640,
+              background: '#fff',
+              borderRadius: 12,
+              boxShadow: '0 2px 12px rgba(37,99,235,0.08)',
+              padding: '1.5rem 1rem'
+            }}
+          >
+            <h3 style={{ color: '#2563eb', marginBottom: 30, fontSize: '1.2rem', fontWeight: 600 }}>Heart Rate Trend (Last 7 Days)</h3>
+            <ResponsiveContainer width="90%" height={200}>
+              <LineChart data={lineData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis domain={[65, 80]} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="HeartRate" stroke="#22c55e" strokeWidth={3} dot={{ r: 5 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Pie Chart Section */}
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 300,
+              background: '#fff',
+              borderRadius: 12,
+              boxShadow: '0 2px 12px rgba(37,99,235,0.08)',
+              padding: '1.5rem 1rem'
+            }}
+          >
+            <h3 style={{ color: '#2563eb', marginBottom: 12 }}>Health Metrics Distribution</h3>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  label
               >
                 {pieData.map((entry, idx) => (
                   <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
@@ -326,6 +353,8 @@ function Dashboard({ idNumber }) {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
+        </div>
+      </div>
         </div>
       </div>
     </div>
