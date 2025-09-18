@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import ustpLogo from './images/heartbeat.png'
+import ustpLogo from '../images/heartbeat.png'
 
 function Signup({ onBackToLogin }) {
   const [idNumber, setIdNumber] = useState('')

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import './App.css'
-import bgImg from './images/USTP-CDO-ICT-building-2048x1152.jpg'
-import ustpLogo from './images/heartbeat.png'
-import Signup from './Signup'
-import Dashboard from './Dashboard'
+import "./styles/App.css";
+import bgImg from "./images/USTP-CDO-ICT-building-2048x1152.jpg";
+import ustpLogo from "./images/heartbeat.png";  
+import Signup from "./components/Signup";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [idNumber, setIdNumber] = useState('')
